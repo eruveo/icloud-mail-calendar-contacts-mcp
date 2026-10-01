@@ -18,6 +18,7 @@ describe("config", () => {
     expect(config.mail.host).toBe(DEFAULT_IMAP_HOST);
     expect(config.smtp.host).toBe("smtp.mail.me.com");
     expect(config.smtp.port).toBe(587);
+    expect(config.allowFileAttachments).toBe(true);
     expect(config.permissions).toEqual({
       readOnly: false,
       allowSend: true,

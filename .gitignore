@@ -9,3 +9,10 @@ coverage/
 .idea/
 .vscode/
 *.tsbuildinfo
+data/
+*.sqlite
+*.db
+users.json
+.wrangler/
+.dev.vars
+.vercel

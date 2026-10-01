@@ -1,0 +1,13 @@
+services:
+  icloud-mail-calendar-contacts-mcp:
+    build: .
+    ports:
+      - "8788:8788"
+    environment:
+      ICLOUD_MCP_ENCRYPTION_KEY: ${ICLOUD_MCP_ENCRYPTION_KEY}
+      ICLOUD_MCP_BIND: "0.0.0.0"
+      ICLOUD_MCP_PORT: "8788"
+      ICLOUD_MCP_USERS_FILE: /data/users.json
+    volumes:
+      - ./data:/data
+    restart: unless-stopped

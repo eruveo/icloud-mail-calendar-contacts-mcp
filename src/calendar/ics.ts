@@ -42,7 +42,7 @@ export interface CreateEventInput {
   uid?: string;
 }
 
-const PRODID = "-//icloud-mcp//EN";
+const PRODID = "-//icloud-mail-calendar-contacts-mcp//EN";
 const MAX_OCCURRENCES = 500;
 
 function registerTimezones(vcalendar: ICAL.Component): void {
@@ -262,7 +262,7 @@ function addAttendees(vevent: ICAL.Component, input: CreateEventInput): void {
 }
 
 export function buildEventIcs(input: CreateEventInput): { uid: string; ics: string } {
-  const uid = input.uid ?? `${crypto.randomUUID()}@icloud-mcp`;
+  const uid = input.uid ?? `${crypto.randomUUID()}@icloud-mail-calendar-contacts-mcp`;
   const calendar = new ICAL.Component(["vcalendar", [], []]);
   calendar.updatePropertyWithValue("prodid", PRODID);
   calendar.updatePropertyWithValue("version", "2.0");

@@ -101,6 +101,9 @@ export class SmtpMailer {
 
   async send(input: SendEmailInput): Promise<{ messageId: string }> {
     assertAllowed(this.config.permissions, "allowSend", "send email");
+    if (!this.config.allowFileAttachments && (input.attachmentPaths?.length ?? 0) > 0) {
+      throw new Error("File attachments are only available in local stdio mode, not on the hosted HTTP server.");
+    }
     if (!input.subject.trim()) {
       throw new Error("subject is required.");
     }

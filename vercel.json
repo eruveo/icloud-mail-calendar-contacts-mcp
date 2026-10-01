@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/handler.mjs",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    { "src": "/mcp", "dest": "api/handler.mjs" },
+    { "src": "/healthz", "dest": "api/handler.mjs" }
+  ]
+}

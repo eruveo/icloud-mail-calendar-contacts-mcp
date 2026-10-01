@@ -1,0 +1,12 @@
+name = "icloud-mail-calendar-contacts-mcp"
+main = "src/worker.ts"
+compatibility_date = "2026-09-01"
+compatibility_flags = ["nodejs_compat"]
+
+# npx wrangler kv namespace create USERS
+# [[kv_namespaces]]
+# binding = "USERS"
+# id = "your-kv-namespace-id"
+
+[vars]
+# Set the encryption key with: npx wrangler secret put ICLOUD_MCP_ENCRYPTION_KEY

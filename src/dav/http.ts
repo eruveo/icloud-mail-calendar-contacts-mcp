@@ -24,7 +24,12 @@ export function headerMap(headers: Headers): Record<string, string> {
 }
 
 function basicAuth(user: string, password: string): string {
-  return `Basic ${Buffer.from(`${user}:${password}`, "utf8").toString("base64")}`;
+  const bytes = new TextEncoder().encode(`${user}:${password}`);
+  let binary = "";
+  for (const byte of bytes) {
+    binary += String.fromCharCode(byte);
+  }
+  return `Basic ${btoa(binary)}`;
 }
 
 export function createDavFetch(options: {

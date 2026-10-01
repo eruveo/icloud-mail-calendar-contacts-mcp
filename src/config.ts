@@ -1,4 +1,4 @@
-export const PACKAGE_NAME = "icloud-mcp";
+export const PACKAGE_NAME = "icloud-mail-calendar-contacts-mcp";
 export const PACKAGE_VERSION = "0.1.0";
 
 export const DEFAULT_IMAP_HOST = "imap.mail.me.com";
@@ -51,6 +51,7 @@ export interface IcloudConfig {
   caldavUrl: string;
   carddavUrl: string;
   attachmentRoot: string | null;
+  allowFileAttachments: boolean;
   permissions: WritePermissions;
 }
 
@@ -122,6 +123,33 @@ export function parseServices(raw: string | undefined): IcloudServiceName[] {
   return enabled;
 }
 
+export function defaultWritePermissions(): WritePermissions {
+  return {
+    readOnly: false,
+    allowSend: true,
+    allowMailWrite: true,
+    allowCalendarWrite: true,
+    allowContactsWrite: true,
+    allowDelete: false,
+    allowExpunge: false,
+  };
+}
+
+export function applyReadOnly(permissions: WritePermissions): WritePermissions {
+  if (!permissions.readOnly) {
+    return permissions;
+  }
+  return {
+    readOnly: true,
+    allowSend: false,
+    allowMailWrite: false,
+    allowCalendarWrite: false,
+    allowContactsWrite: false,
+    allowDelete: false,
+    allowExpunge: false,
+  };
+}
+
 export function parsePermissions(env: NodeJS.ProcessEnv): WritePermissions {
   const readOnly = parseBoolean(readEnv(env, "ICLOUD_READ_ONLY"), false);
   if (readOnly) {
@@ -150,6 +178,48 @@ export function serviceEnabled(config: IcloudConfig, name: IcloudServiceName): b
   return config.services.includes(name);
 }
 
+export interface BuildConfigInput {
+  email: string;
+  appPassword: string;
+  services?: readonly IcloudServiceName[];
+  timezone?: string;
+  permissions?: WritePermissions;
+  allowFileAttachments?: boolean;
+  env?: NodeJS.ProcessEnv;
+}
+
+export function parsePort(raw: string | undefined, fallback: number, name: string): number {
+  const value = raw ? Number.parseInt(raw, 10) : fallback;
+  if (!Number.isInteger(value) || value <= 0 || value > 65535) {
+    throw new ConfigError(`${name} must be an integer between 1 and 65535.`);
+  }
+  return value;
+}
+
+export function buildConfig(input: BuildConfigInput): IcloudConfig {
+  const env = input.env ?? {};
+  return {
+    email: input.email,
+    appPassword: input.appPassword,
+    services: input.services ?? parseServices(readEnv(env, "ICLOUD_SERVICES")),
+    timezone: input.timezone ?? readEnv(env, "ICLOUD_TIMEZONE") ?? DEFAULT_TIMEZONE,
+    mail: {
+      host: readEnv(env, "IMAP_HOST") ?? DEFAULT_IMAP_HOST,
+      port: parsePort(readEnv(env, "IMAP_PORT"), DEFAULT_IMAP_PORT, "IMAP_PORT"),
+      secure: parseBoolean(readEnv(env, "IMAP_SECURE"), true),
+    },
+    smtp: {
+      host: readEnv(env, "SMTP_HOST") ?? DEFAULT_SMTP_HOST,
+      port: parsePort(readEnv(env, "SMTP_PORT"), DEFAULT_SMTP_PORT, "SMTP_PORT"),
+    },
+    caldavUrl: (readEnv(env, "ICLOUD_CALDAV_URL") ?? DEFAULT_CALDAV_URL).replace(/\/$/u, ""),
+    carddavUrl: (readEnv(env, "ICLOUD_CARDDAV_URL") ?? DEFAULT_CARDDAV_URL).replace(/\/$/u, ""),
+    attachmentRoot: readEnv(env, "ICLOUD_ATTACHMENT_ROOT") ?? null,
+    allowFileAttachments: input.allowFileAttachments ?? true,
+    permissions: applyReadOnly(input.permissions ?? parsePermissions(env)),
+  };
+}
+
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): IcloudConfig {
   const email = readEnv(env, "ICLOUD_EMAIL") ?? readEnv(env, "ICLOUD_USERNAME");
   const appPassword = readEnv(env, "ICLOUD_APP_PASSWORD");
@@ -163,35 +233,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): IcloudConfig {
       "Missing ICLOUD_APP_PASSWORD. Create an app-specific password at https://account.apple.com — do not use your Apple ID password.",
     );
   }
-  const imapPortRaw = readEnv(env, "IMAP_PORT");
-  const imapPort = imapPortRaw ? Number.parseInt(imapPortRaw, 10) : DEFAULT_IMAP_PORT;
-  if (!Number.isInteger(imapPort) || imapPort <= 0 || imapPort > 65535) {
-    throw new ConfigError("IMAP_PORT must be an integer between 1 and 65535.");
-  }
-  const smtpPortRaw = readEnv(env, "SMTP_PORT");
-  const smtpPort = smtpPortRaw ? Number.parseInt(smtpPortRaw, 10) : DEFAULT_SMTP_PORT;
-  if (!Number.isInteger(smtpPort) || smtpPort <= 0 || smtpPort > 65535) {
-    throw new ConfigError("SMTP_PORT must be an integer between 1 and 65535.");
-  }
-  return {
-    email,
-    appPassword,
-    services: parseServices(readEnv(env, "ICLOUD_SERVICES")),
-    timezone: readEnv(env, "ICLOUD_TIMEZONE") ?? DEFAULT_TIMEZONE,
-    mail: {
-      host: readEnv(env, "IMAP_HOST") ?? DEFAULT_IMAP_HOST,
-      port: imapPort,
-      secure: parseBoolean(readEnv(env, "IMAP_SECURE"), true),
-    },
-    smtp: {
-      host: readEnv(env, "SMTP_HOST") ?? DEFAULT_SMTP_HOST,
-      port: smtpPort,
-    },
-    caldavUrl: (readEnv(env, "ICLOUD_CALDAV_URL") ?? DEFAULT_CALDAV_URL).replace(/\/$/u, ""),
-    carddavUrl: (readEnv(env, "ICLOUD_CARDDAV_URL") ?? DEFAULT_CARDDAV_URL).replace(/\/$/u, ""),
-    attachmentRoot: readEnv(env, "ICLOUD_ATTACHMENT_ROOT") ?? null,
-    permissions: parsePermissions(env),
-  };
+  return buildConfig({ email, appPassword, env });
 }
 
 export function secretsFromConfig(config: IcloudConfig): string[] {
