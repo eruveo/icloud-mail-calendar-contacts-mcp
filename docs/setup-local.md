@@ -1,4 +1,4 @@
-# Option 1 — local stdio
+# Local (your machine)
 
 Run the MCP server as a subprocess of Claude Desktop, Cursor, or any other MCP client. Credentials stay on your machine as environment variables. This is the default binary behaviour (no CLI subcommand).
 

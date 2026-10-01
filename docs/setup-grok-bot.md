@@ -1,6 +1,6 @@
 # Run it in Grok Bot
 
-Grok Bot is a desktop AI assistant whose bots share one always-on Linux cloud computer, called **the box**. You can run this MCP server on your own box as a local (stdio) connector. Every one of your bots then gets iCloud Mail, Calendar, and Contacts tools.
+Grok Bot is a desktop AI assistant whose bots share one always-on Linux cloud computer, called **the box**. You can run this MCP server on your own box as a Local (stdio) connector. Every one of your bots then gets iCloud Mail, Calendar, and Contacts tools.
 
 > This project is not affiliated with, endorsed by, or supported by Apple or Grok Bot.
 
@@ -66,11 +66,11 @@ npm ci
 npm run build
 ```
 
-The build produces `dist/index.js`. With no arguments it runs in **local stdio mode**, which is the mode you want here. (The `serve` subcommand and the hosted options in [setup-hosted.md](setup-hosted.md) aren't needed for Grok Bot.)
+The build produces `dist/index.js`. With no arguments it runs in **Local mode** (stdio), which is the mode you want here. (The `serve` subcommand and the Cloud options in [setup-hosted.md](setup-hosted.md) aren't needed for Grok Bot.)
 
 ### 2. Environment variables
 
-The server reads its settings from environment variables only. Stdio mode has no CLI flags.
+The server reads its settings from environment variables only. Local mode has no CLI flags.
 
 Required:
 
@@ -94,7 +94,7 @@ The other write switches (`ICLOUD_READ_ONLY`, `ICLOUD_ALLOW_SEND`, `ICLOUD_ALLOW
 
 ### 3. The stdio connector
 
-Add a local stdio connector (named `icloud`, for example) in Grok Bot with:
+Add a Local stdio connector (named `icloud`, for example) in Grok Bot with:
 
 - **Command:** `node`
 - **Arguments:** `/home/box/mcp/icloud-mail-calendar-contacts-mcp/dist/index.js`
