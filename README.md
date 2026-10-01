@@ -19,6 +19,8 @@ There is no official Apple MCP. This is a small open-source one.
 
 Keep stdio as the default. Hosted mode is opt-in (`serve` + a user-admin CLI).
 
+**Using Grok Bot?** Run option 1 on your bot's own always-on computer (the box): no hosting, no cost, and every one of your bots gets the tools. See [docs/setup-grok-bot.md](docs/setup-grok-bot.md).
+
 Once this package is on npm you will be able to run:
 
 ```bash
