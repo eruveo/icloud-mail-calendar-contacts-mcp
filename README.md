@@ -1,6 +1,6 @@
 # icloud-mail-calendar-contacts-mcp
 
-MIT-licensed [Model Context Protocol](https://modelcontextprotocol.io) server for one iCloud account (or a handful, in hosted mode). It talks to Apple with an **app-specific password** over IMAP + SMTP, CalDAV, and CardDAV — the same third-party surface Mail.app / Calendar.app use.
+MIT-licensed [Model Context Protocol](https://modelcontextprotocol.io) server for one iCloud account (or a handful, in Cloud mode). It talks to Apple with an **app-specific password** over IMAP + SMTP, CalDAV, and CardDAV — the same third-party surface Mail.app / Calendar.app use.
 
 There is no official Apple MCP. This is a small open-source one.
 
@@ -10,16 +10,16 @@ There is no official Apple MCP. This is a small open-source one.
 
 ## Two ways to run it
 
-| | Option 1 — local stdio | Option 2 — hosted HTTP |
+| | Local (your machine) | Cloud (hosted for you + friends) |
 | --- | --- | --- |
 | Who | You, on your machine | You plus a few friends |
 | Transport | MCP stdio (Claude Desktop, Cursor, any local client) | Streamable HTTP at `/mcp` (current MCP spec) |
 | Credentials | Env vars in the client config | Per-user iCloud login, encrypted at rest; friends authenticate with a bearer token |
 | Docs | [docs/setup-local.md](docs/setup-local.md) | [docs/setup-hosted.md](docs/setup-hosted.md) |
 
-Keep stdio as the default. Hosted mode is opt-in (`serve` + a user-admin CLI).
+Keep Local as the default. Cloud mode is opt-in (`serve` + a user-admin CLI).
 
-**Using Grok Bot?** Run option 1 on your bot's own always-on computer (the box): no hosting, no cost, and every one of your bots gets the tools. See [docs/setup-grok-bot.md](docs/setup-grok-bot.md).
+**Using Grok Bot?** Run Local on your bot's own always-on computer (the box): no hosting, no cost, and every one of your bots gets the tools. See [docs/setup-grok-bot.md](docs/setup-grok-bot.md).
 
 Once this package is on npm you will be able to run:
 
@@ -37,7 +37,7 @@ This repository does **not** publish to npm as part of development. Until then, 
 | Calendar | CalDAV `https://caldav.icloud.com` | List calendars, list/get events with timezones and expanded recurrences, list invitations | Create calendars, create/update events, attendees (iCloud sends the invites), RSVP |
 | Contacts | CardDAV `https://contacts.icloud.com` | Search/list/get, list groups | Create/update contacts and groups |
 
-**Delete** is off unless you opt in (`ICLOUD_ALLOW_DELETE` locally, or `--allow-delete` per hosted user). **Permanent IMAP expunge** is a separate opt-in.
+**Delete** is off unless you opt in (`ICLOUD_ALLOW_DELETE` in Local mode, or `--allow-delete` per Cloud user). **Permanent IMAP expunge** is a separate opt-in.
 
 ## What it cannot do
 
@@ -46,7 +46,7 @@ No app-specific-password API suitable for a third-party MCP:
 - **Photos**, **iCloud Drive**, **Notes**, **Passwords / iCloud Keychain**
 - **Reminders** — modern lists live on CloudKit, not reliable CalDAV `VTODO`. `ICLOUD_SERVICES=reminders` is rejected.
 
-### Platform limits (hosted)
+### Platform limits (cloud)
 
 | Host | Calendar / Contacts | Mail (IMAP/SMTP) |
 | --- | --- | --- |

@@ -1,4 +1,4 @@
-# Option 2 — hosted Streamable HTTP
+# Cloud (hosted for you + friends)
 
 For **one owner plus a few friends**. Each person uses their own iCloud address and app-specific password. They authenticate to *your* MCP server with a **per-user bearer token**. There is no shared admin login on HTTP.
 
@@ -35,7 +35,7 @@ node dist/index.js add-user \
 # <token>
 ```
 
-Safe defaults match local mode (send/write on, delete/expunge off). Examples:
+Safe defaults match Local mode (send/write on, delete/expunge off). Examples:
 
 ```bash
 # Read-only friend
@@ -156,7 +156,7 @@ Bind **127.0.0.1** and reverse-proxy with Caddy/nginx + TLS, or expose only on T
 
 Local default bind is `127.0.0.1`. Docker sets `ICLOUD_MCP_BIND=0.0.0.0` so the published port works.
 
-## 7. Hosted environment variables
+## 7. Cloud environment variables
 
 | Variable | Required | Meaning |
 | --- | --- | --- |
@@ -173,7 +173,7 @@ Local default bind is `127.0.0.1`. Docker sets `ICLOUD_MCP_BIND=0.0.0.0` so the 
 
 Cloudflare Workers secrets/bindings: `ICLOUD_MCP_ENCRYPTION_KEY`, KV `USERS`. Rate-limit counters are per isolate (Access is the real throttle).
 
-Hosted `send_email` **file attachments are disabled** (no shared filesystem). Body + recipients still work on Node/Vercel.
+In Cloud mode, `send_email` **file attachments are disabled** (no shared filesystem). Body + recipients still work on Node/Vercel.
 
 ## 8. Rotation, revocation, threat model
 
