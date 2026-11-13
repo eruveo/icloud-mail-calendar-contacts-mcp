@@ -5,7 +5,7 @@
 ### Added
 
 - Claude Code plugin marketplace (`.claude-plugin/marketplace.json`) with an `icloud` plugin. The plugin asks for the address, app-specific password (stored as a sensitive option), time zone, and read-only, send, and delete switches.
-- Agent Skills in `plugins/icloud/skills`: `icloud-assistant` (safe everyday use) and `icloud-setup` (install, permissions, troubleshooting).
+- `icloud-assistant` Agent Skill in `plugins/icloud/skills`: when and how to use the tools safely.
 - `prepare` script, so `npx -y github:eruveo/icloud-mail-calendar-contacts-mcp` builds and runs the server.
 - Test that keeps the skills, plugin manifest, and registered tools in sync.
 

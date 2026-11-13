@@ -5,13 +5,13 @@
     "url": "https://github.com/eruveo"
   },
   "metadata": {
-    "description": "iCloud Mail, Calendar, and Contacts for Claude Code: MCP server plus usage and setup skills."
+    "description": "iCloud Mail, Calendar, and Contacts for Claude Code: MCP server plus a usage skill."
   },
   "plugins": [
     {
       "name": "icloud",
       "source": "./plugins/icloud",
-      "description": "iCloud Mail (IMAP/SMTP), Calendar (CalDAV), and Contacts (CardDAV) with an app-specific password. Includes the MCP server and skills.",
+      "description": "iCloud Mail (IMAP/SMTP), Calendar (CalDAV), and Contacts (CardDAV) with an app-specific password. Includes the MCP server and a usage skill.",
       "category": "productivity"
     }
   ]

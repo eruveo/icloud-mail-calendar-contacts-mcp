@@ -1,6 +1,6 @@
 {
   "name": "icloud",
-  "description": "iCloud Mail, Calendar, and Contacts through an app-specific password. Bundles the icloud-mail-calendar-contacts-mcp server with skills for safe everyday use and for setup and troubleshooting.",
+  "description": "iCloud Mail, Calendar, and Contacts through an app-specific password. Bundles the icloud-mail-calendar-contacts-mcp server with a skill for safe everyday use.",
   "version": "0.1.0",
   "author": {
     "name": "Michal Sevcik",

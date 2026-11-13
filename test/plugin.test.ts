@@ -106,7 +106,7 @@ describe("Claude Code plugin and agent skills", () => {
 
   it("skills follow the Agent Skills format", async () => {
     const found = await skills();
-    expect(found.map((skill) => skill.dir).sort()).toEqual(["icloud-assistant", "icloud-setup"]);
+    expect(found.map((skill) => skill.dir).sort()).toEqual(["icloud-assistant"]);
     for (const skill of found) {
       const fields = frontmatter(skill.body);
       const name = fields.name ?? "";

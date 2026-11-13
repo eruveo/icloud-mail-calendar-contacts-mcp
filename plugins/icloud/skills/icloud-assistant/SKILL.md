@@ -9,7 +9,7 @@ metadata:
 
 # iCloud Mail, Calendar, and Contacts
 
-These tools talk to one iCloud account with an app-specific password over IMAP/SMTP, CalDAV, and CardDAV. If no `list_mailboxes`, `list_calendars`, or `list_contacts` tool is available, the server is not installed or not running. Switch to the `icloud-setup` skill.
+These tools talk to one iCloud account with an app-specific password over IMAP/SMTP, CalDAV, and CardDAV. If no `list_mailboxes`, `list_calendars`, or `list_contacts` tool is available, the server is not installed or not running. Point the user to the setup guide: https://github.com/eruveo/icloud-mail-calendar-contacts-mcp/blob/main/docs/setup-local.md
 
 ## Ground rules
 
@@ -77,7 +77,7 @@ These tools talk to one iCloud account with an app-specific password over IMAP/S
 
 | Message contains | Meaning | Do |
 | --- | --- | --- |
-| `authentication`, `AUTHENTICATIONFAILED`, `401` | Wrong or revoked app-specific password, or not the full iCloud address | Tell the user to check the `icloud-setup` skill. Don't retry in a loop. |
+| `authentication`, `AUTHENTICATIONFAILED`, `401` | Wrong or revoked app-specific password, or not the full iCloud address | Tell the user to generate a new app-specific password and use the full address. Don't retry in a loop. |
 | `Refusing to …` or `Blocked IMAP command` | Disabled by configuration | Report it, including the setting it names. Don't work around it. |
 | `HTTP 412` | The item changed since you read it | Read it again, then retry once with the new `etag` (or none) |
 | `No message with uid` | Wrong mailbox for that UID, or the message moved | Search again in the right `mailbox` |
