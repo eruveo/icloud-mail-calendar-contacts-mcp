@@ -1,0 +1,62 @@
+{
+  "name": "icloud",
+  "description": "iCloud Mail, Calendar, and Contacts through an app-specific password. Bundles the icloud-mail-calendar-contacts-mcp server with skills for safe everyday use and for setup and troubleshooting.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Michal Sevcik",
+    "url": "https://github.com/eruveo"
+  },
+  "homepage": "https://github.com/eruveo/icloud-mail-calendar-contacts-mcp",
+  "repository": "https://github.com/eruveo/icloud-mail-calendar-contacts-mcp",
+  "license": "MIT",
+  "keywords": [
+    "icloud",
+    "apple",
+    "email",
+    "imap",
+    "calendar",
+    "caldav",
+    "contacts",
+    "carddav",
+    "mcp"
+  ],
+  "userConfig": {
+    "icloud_email": {
+      "type": "string",
+      "title": "iCloud email address",
+      "description": "Full address: name@icloud.com, @me.com, or @mac.com.",
+      "required": true
+    },
+    "icloud_app_password": {
+      "type": "string",
+      "title": "App-specific password",
+      "description": "Generate one at account.apple.com > Sign-In and Security > App-Specific Passwords. Not your Apple Account password.",
+      "sensitive": true,
+      "required": true
+    },
+    "icloud_timezone": {
+      "type": "string",
+      "title": "Time zone",
+      "description": "IANA zone used for calendar times, for example Europe/Prague.",
+      "default": "UTC"
+    },
+    "icloud_read_only": {
+      "type": "boolean",
+      "title": "Read-only",
+      "description": "Turn off every write tool: no sending, filing, or calendar and contact changes.",
+      "default": false
+    },
+    "icloud_allow_send": {
+      "type": "boolean",
+      "title": "Allow sending email",
+      "description": "Let the agent send mail. When off, it can still save drafts for you to send.",
+      "default": true
+    },
+    "icloud_allow_delete": {
+      "type": "boolean",
+      "title": "Allow delete",
+      "description": "Let the agent move mail to Trash and delete events and contacts. Permanent expunge stays off.",
+      "default": false
+    }
+  }
+}

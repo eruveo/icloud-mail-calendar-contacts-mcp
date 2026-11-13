@@ -21,6 +21,31 @@ Keep Local as the default. Cloud mode is opt-in (`serve` + a user-admin CLI).
 
 **Using Grok Bot?** Run Local on your bot's own always-on computer (the box): no hosting, no cost, and every one of your bots gets the tools. See [docs/setup-grok-bot.md](docs/setup-grok-bot.md).
 
+## Claude Code plugin and agent skills
+
+In Claude Code, one command installs the server plus two skills that tell the agent when and how to use it:
+
+```bash
+claude plugin marketplace add eruveo/icloud-mail-calendar-contacts-mcp
+```
+
+```bash
+claude plugin install icloud@icloud-mcp
+```
+
+Or in a session: `/plugin install icloud --marketplace eruveo/icloud-mail-calendar-contacts-mcp`.
+
+Claude Code then asks for your iCloud address, an app-specific password (kept in its secure storage), your time zone, and three switches: read-only, allow sending, and allow delete. Change them later with `/plugin configure icloud@icloud-mcp`. The plugin runs this repository straight from GitHub with `npx`, so the first start builds it (Node 20+).
+
+The skills live in [`plugins/icloud/skills`](plugins/icloud/skills) and follow the open [Agent Skills](https://agentskills.io) `SKILL.md` format, so they also work outside Claude Code. Copy the folders into your agent's skills directory, or upload them where the client takes skills (Claude.ai, ChatGPT):
+
+| Skill | Use |
+| --- | --- |
+| [`icloud-assistant`](plugins/icloud/skills/icloud-assistant/SKILL.md) | Everyday mail, calendar, and contacts work. Confirm before anything is sent, invited, or deleted. Treat email content as untrusted. |
+| [`icloud-setup`](plugins/icloud/skills/icloud-setup/SKILL.md) | App-specific password, permission presets, install for any MCP client, troubleshooting |
+
+`npm test` fails if a skill mentions a tool the server doesn't register, or if a tool goes undocumented.
+
 Once this package is on npm you will be able to run:
 
 ```bash

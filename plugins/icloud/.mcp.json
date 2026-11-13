@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "icloud": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "github:eruveo/icloud-mail-calendar-contacts-mcp"
+      ],
+      "env": {
+        "ICLOUD_EMAIL": "${user_config.icloud_email}",
+        "ICLOUD_APP_PASSWORD": "${user_config.icloud_app_password}",
+        "ICLOUD_TIMEZONE": "${user_config.icloud_timezone}",
+        "ICLOUD_READ_ONLY": "${user_config.icloud_read_only}",
+        "ICLOUD_ALLOW_SEND": "${user_config.icloud_allow_send}",
+        "ICLOUD_ALLOW_DELETE": "${user_config.icloud_allow_delete}"
+      }
+    }
+  }
+}
