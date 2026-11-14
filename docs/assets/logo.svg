@@ -1,48 +1,73 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#0f766e"/>
-      <stop offset="1" stop-color="#1e1b4b"/>
+    <linearGradient id="bg" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#7dd3fc"/>
+      <stop offset="0.55" stop-color="#3b82f6"/>
+      <stop offset="1" stop-color="#4338ca"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.3" cy="0.15" r="0.7">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.92"/>
+      <stop offset="1" stop-color="#e0f2fe" stop-opacity="0.62"/>
+    </linearGradient>
+    <linearGradient id="rim" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="0.5" stop-color="#ffffff" stop-opacity="0.15"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0.7"/>
     </linearGradient>
     <linearGradient id="spark" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#fde68a"/>
-      <stop offset="1" stop-color="#f59e0b"/>
+      <stop offset="0" stop-color="#fef9c3"/>
+      <stop offset="1" stop-color="#fbbf24"/>
     </linearGradient>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#020617" flood-opacity="0.45"/>
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="24" stdDeviation="30" flood-color="#1e1b4b" flood-opacity="0.35"/>
     </filter>
+    <filter id="blur"><feGaussianBlur stdDeviation="6"/></filter>
+    <!-- Own cloud silhouette: flat base, three uneven lobes, taller on the right -->
+    <path id="cloud" d="M250 720
+      C180 720 140 668 140 612
+      C140 548 192 500 256 504
+      C268 412 340 352 426 360
+      C470 290 560 262 640 290
+      C726 318 772 394 770 470
+      C840 470 888 528 884 596
+      C880 668 826 720 756 720 Z"/>
+    <clipPath id="cloudClip"><use href="#cloud"/></clipPath>
   </defs>
-  <rect width="1024" height="1024" rx="224" fill="url(#bg)"/>
-  <circle cx="512" cy="540" r="330" fill="#ffffff" opacity="0.05"/>
 
-  <!-- contact card (back, left) -->
-  <g filter="url(#shadow)" transform="translate(-60 -10) rotate(-14 330 560)">
-    <rect x="170" y="400" width="320" height="320" rx="44" fill="#e0f2fe"/>
-    <circle cx="330" cy="525" r="62" fill="#0f766e"/>
-    <path d="M222 680c14-62 58-96 108-96s94 34 108 96" fill="#0f766e"/>
+  <rect width="1024" height="1024" rx="228" fill="url(#bg)"/>
+  <rect width="1024" height="1024" rx="228" fill="url(#glow)"/>
+
+  <!-- glass cloud -->
+  <g filter="url(#soft)">
+    <use href="#cloud" fill="url(#glass)"/>
+  </g>
+  <!-- inner specular band -->
+  <g clip-path="url(#cloudClip)">
+    <ellipse cx="460" cy="380" rx="300" ry="90" fill="#ffffff" opacity="0.55" filter="url(#blur)"/>
+  </g>
+  <use href="#cloud" fill="none" stroke="url(#rim)" stroke-width="10"/>
+
+  <!-- glyphs inside the cloud -->
+  <g transform="translate(0 0)">
+    <!-- contact -->
+    <circle cx="330" cy="556" r="38" fill="#2563eb"/>
+    <path d="M268 660c8-44 34-66 62-66s54 22 62 66z" fill="#2563eb"/>
+    <!-- envelope -->
+    <rect x="430" y="510" width="180" height="136" rx="26" fill="#1d4ed8"/>
+    <path d="M448 532l72 54 72-54" fill="none" stroke="#ffffff" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- calendar -->
+    <rect x="652" y="508" width="132" height="138" rx="24" fill="#ffffff" stroke="#2563eb" stroke-width="10"/>
+    <path d="M652 532a24 24 0 0 1 24-24h84a24 24 0 0 1 24 24v22H652z" fill="#ef4444"/>
+    <text x="718" y="628" text-anchor="middle" font-family="-apple-system, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-weight="700" font-size="62" fill="#1e3a8a">27</text>
   </g>
 
-  <!-- calendar (back, right) -->
-  <g filter="url(#shadow)" transform="translate(60 -10) rotate(14 694 560)">
-    <rect x="534" y="400" width="320" height="320" rx="44" fill="#ffffff"/>
-    <path d="M534 444a44 44 0 0 1 44-44h232a44 44 0 0 1 44 44v52H534z" fill="#ef4444"/>
-    <rect x="606" y="372" width="22" height="64" rx="11" fill="#1e1b4b"/>
-    <rect x="760" y="372" width="22" height="64" rx="11" fill="#1e1b4b"/>
-    <g fill="#1e1b4b" opacity="0.85">
-      <rect x="584" y="530" width="52" height="44" rx="10"/><rect x="668" y="530" width="52" height="44" rx="10"/><rect x="752" y="530" width="52" height="44" rx="10"/>
-      <rect x="584" y="602" width="52" height="44" rx="10"/><rect x="668" y="602" width="52" height="44" rx="10" fill="#0f766e" opacity="1"/><rect x="752" y="602" width="52" height="44" rx="10"/>
-    </g>
-  </g>
-
-  <!-- envelope (front, center) -->
-  <g filter="url(#shadow)">
-    <rect x="322" y="530" width="380" height="260" rx="44" fill="#ffffff"/>
-    <path d="M348 560l164 120 164-120" fill="none" stroke="#0f766e" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
-  </g>
-
-  <!-- agent spark -->
-  <g filter="url(#shadow)">
-    <path d="M512 150c18 74 44 100 118 118-74 18-100 44-118 118-18-74-44-100-118-118 74-18 100-44 118-118z" fill="url(#spark)"/>
-    <path d="M700 220c8 32 19 43 51 51-32 8-43 19-51 51-8-32-19-43-51-51 32-8 43-19 51-51z" fill="#fde68a"/>
+  <!-- AI spark -->
+  <g filter="url(#soft)">
+    <path d="M770 168c14 58 34 78 92 92-58 14-78 34-92 92-14-58-34-78-92-92 58-14 78-34 92-92z" fill="url(#spark)"/>
+    <path d="M872 340c6 24 14 32 38 38-24 6-32 14-38 38-6-24-14-32-38-38 24-6 32-14 38-38z" fill="#fef9c3"/>
   </g>
 </svg>
