@@ -1,3 +1,5 @@
+<p align="center"><img src="docs/assets/logo.svg" width="128" alt=""></p>
+
 # icloud-mail-calendar-contacts-mcp
 
 MIT-licensed [Model Context Protocol](https://modelcontextprotocol.io) server for one iCloud account (or a handful, in Cloud mode). It talks to Apple with an **app-specific password** over IMAP + SMTP, CalDAV, and CardDAV — the same third-party surface Mail.app / Calendar.app use.
@@ -20,6 +22,26 @@ There is no official Apple MCP. This is a small open-source one.
 Keep Local as the default. Cloud mode is opt-in (`serve` + a user-admin CLI).
 
 **Using Grok Bot?** Run Local on your bot's own always-on computer (the box): no hosting, no cost, and every one of your bots gets the tools. See [docs/setup-grok-bot.md](docs/setup-grok-bot.md).
+
+## Claude Code plugin and agent skills
+
+In Claude Code, one command installs the server plus a skill that tells the agent when and how to use it:
+
+```bash
+claude plugin marketplace add eruveo/icloud-mail-calendar-contacts-mcp
+```
+
+```bash
+claude plugin install icloud@icloud-mcp
+```
+
+Or in a session: `/plugin install icloud --marketplace eruveo/icloud-mail-calendar-contacts-mcp`.
+
+Claude Code then asks for your iCloud address, an app-specific password (kept in its secure storage), your time zone, and three switches: read-only, allow sending, and allow delete. Change them later with `/plugin configure icloud@icloud-mcp`. The plugin runs this repository straight from GitHub with `npx`, so the first start builds it (Node 20+).
+
+The skill, [`icloud-assistant`](plugins/icloud/skills/icloud-assistant/SKILL.md), covers everyday mail, calendar, and contacts work. It confirms before anything is sent, invited, or deleted, and treats email content as untrusted. It follows the open [Agent Skills](https://agentskills.io) `SKILL.md` format, so it also works outside Claude Code: copy the folder into your agent's skills directory, or upload it where the client takes skills (Claude.ai, ChatGPT).
+
+`npm test` fails if a skill mentions a tool the server doesn't register, or if a tool goes undocumented.
 
 Once this package is on npm you will be able to run:
 
