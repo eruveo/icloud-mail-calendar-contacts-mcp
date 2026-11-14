@@ -1,3 +1,5 @@
+<p align="center"><img src="docs/assets/logo.svg" width="128" alt=""></p>
+
 # icloud-mail-calendar-contacts-mcp
 
 MIT-licensed [Model Context Protocol](https://modelcontextprotocol.io) server for one iCloud account (or a handful, in Cloud mode). It talks to Apple with an **app-specific password** over IMAP + SMTP, CalDAV, and CardDAV — the same third-party surface Mail.app / Calendar.app use.
